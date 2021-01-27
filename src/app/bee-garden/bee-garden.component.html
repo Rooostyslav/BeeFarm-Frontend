@@ -1,0 +1,59 @@
+<div class="container">
+    <h1 class="ml-0 mt-3 mb-3  mr-3">Bee Gardens List</h1>
+    
+    <input type="button" value="Add Bee Garden" class="btn btn-primary p-2 mb-2" (click)="addBeeGarden()" />
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let beeGarden of beeGardens">
+                <ng-template [ngTemplateOutlet]="loadTemplate(beeGarden)" 
+                    [ngTemplateOutletContext]="{ $implicit: beeGarden }">
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>{{statusMessage}}</div>
+
+</div>
+
+<!--шаблон для чтения-->
+<ng-template #readOnlyTemplate let-beeGarden>
+    <td>{{beeGarden.id}}</td>
+    <td>{{beeGarden.name}}</td>
+    <td>{{beeGarden.description}}</td>
+    <td>
+        <input type="button" value="Edit" class="btn btn-primary" (click)="editBeeGarden(beeGarden)" />
+    </td>
+    <td>
+        <input type="button" value="Delete" (click)="deleteBeeGarden(beeGarden)" class="btn btn-danger" />
+    </td>
+</ng-template>
+   
+<!--шаблон для редактирования-->
+<ng-template #editTemplate>
+    <td>
+        <input type="number" [(ngModel)]="editedBeeGarden.id" readonly disabled class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="editedBeeGarden.name" class="form-control" />
+    </td>
+    <td>
+        <input type="text" [(ngModel)]="editedBeeGarden.description" class="form-control" />
+    </td>
+    <td>
+        <input type="button" value="Save" (click)="saveBeeGarden()" class="btn btn-success" />
+    </td>
+    <td>
+        <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+    </td>
+</ng-template>
